@@ -1,0 +1,87 @@
+=pod
+
+=encoding utf-8
+
+=head1 NAME
+
+Syntax::Feature::Let - Let block scoping keyword
+
+=head1 VERSION
+
+version 0.001000
+
+=head1 SYNOPSIS
+
+    use syntax qw( let );
+
+    my $value = let ($x = 23) { $x * 2 };
+
+=head1 DESCRIPTION
+
+This syntax extension introduces a C<let> keyword similar to those found
+in Scheme. It is basically a short form of declaring lexicals and having
+a block in which those lexicals will be available.
+
+=head2 Syntax
+
+    let (<variable> = <expression>) ... { <body> }
+
+The syntax is triggered with the C<let> keyword, followed by a sequence
+(can be none at all, or many) of variable declarations, followed by a
+block in which the declared variables will be available.
+
+Currently, only single variables can be initialized inside a variable
+declaration:
+
+    let ($x = 23) { $x }
+    let (@y = (3..7)) { @y }
+    let (%z = (x => 42)) { $z{x} }
+
+=head2 Expression Details
+
+The whole C<let> keyword is an expression, not a statement. This means you
+must terminate the statement yourself. It also means the C<let>
+expressions can be used inside any other expression:
+
+    my $x = let ($y = 23) { $y } + let ($z = 42) { $z };
+
+The context will also be properly propagated to the block.
+
+=head2 Sequential Access
+
+The lexicals that are declared can be sequentially accessed. This means
+that every variable can access those before it:
+
+    let ($x = 23) ($y = $x * 2) { $y }
+
+=head2 Transformation
+
+Internally, the C<let> expression will be turned into a C<do> expression.
+This is done at an Op tree level and should result in rather fast code.
+
+    let ($x = 23) { say $x }
+
+will be transformed into (more or less):
+
+    do { my $x = 23; say $x }
+
+=head1 SEE ALSO
+
+L<syntax>
+
+=head1 BUGS
+
+Please report any bugs or feature requests to bug-syntax-feature-let@rt.cpan.org or through the web interface at:
+ http://rt.cpan.org/Public/Dist/Display.html?Name=Syntax-Feature-Let
+
+=head1 AUTHOR
+
+Robert 'phaylon' Sedlacek <rs@474.at>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2012 by Robert 'phaylon' Sedlacek.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
