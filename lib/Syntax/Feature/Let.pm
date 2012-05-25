@@ -93,7 +93,7 @@ will be transformed into (more or less):
 
 =item * Florian Ragwitz (FLORA) - Did all the smart stuff in this module.
 
-=item * Robert Sedlacek - Wrapped it up, put some docs on it.
+=item * Robert Sedlacek (PHAYLON) - Wrapped it up, put some docs on it.
 
 =back
 
