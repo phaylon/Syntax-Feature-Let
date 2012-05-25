@@ -87,6 +87,16 @@ will be transformed into (more or less):
 
     do { my $x = 23; say $x }
 
+=head1 CONTRIBUTORS
+
+=over
+
+=item * Florian Ragwitz (FLORA) - Did all the smart stuff in this module.
+
+=item * Robert Sedlacek - Wrapped it up, put some docs on it.
+
+=back
+
 =head1 SEE ALSO
 
 L<syntax>
